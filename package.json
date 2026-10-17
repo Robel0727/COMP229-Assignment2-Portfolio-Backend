@@ -1,6 +1,13 @@
+
 {
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\""
+  },
   "dependencies": {
     "dotenv": "^18.0.8",
     "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
   }
 }

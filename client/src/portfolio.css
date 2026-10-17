@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #222;
+}
+
+nav {
+  padding: 15px;
+  background-color: #222;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  color: #333;
+}
+
+h2 {
+  color: #444;
+}
+
+div {
+  padding: 10px;
+}
+
+img {
+  margin: 10px 0;
+}
+
+input,
+textarea {
+  padding: 8px;
+  margin-top: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+}

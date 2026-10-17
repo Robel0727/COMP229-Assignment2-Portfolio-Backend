@@ -1,1 +1,26 @@
-/node_modules
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+client/.env
+client/.env.*
+server/.env
+server/.env.*
+!server/.env.example
+
+# Build output
+client/dist/
+server/dist/
+
+# Local and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+# Exclude backup copy and unrelated portfolio ZIP
+client-copy/
+client/Robel_Teffera_React_Portfolio.zip
