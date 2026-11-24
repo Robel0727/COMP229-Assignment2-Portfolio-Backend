@@ -1,0 +1,35 @@
+name: Portfolio CI
+
+on:
+  push:
+    branches:
+      - main
+      - assignment4-testing-optimization
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Run unit tests
+        working-directory: client
+        run: npm test -- --run
+
+      - name: Build React application
+        working-directory: client
+        run: npm run build
