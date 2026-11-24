@@ -1,4 +1,5 @@
 import express from 'express';
+import adminMiddleware from '../middlewares/adminMiddleware.js';
 import {
     createProject,
     deleteProject,
@@ -16,12 +17,12 @@ router.get("/", getAllProjects);
 router.get("/:id", getProjectById);
 
 // CREATE
-router.post("/", createProject);
+router.post("/", adminMiddleware, createProject);
 
 // UPDATE
-router.put("/:id", updateProject);
+router.put("/:id", adminMiddleware, updateProject);
 
 // DELETE
-router.delete("/:id", deleteProject);
+router.delete("/:id", adminMiddleware, deleteProject);
 
 export default router;

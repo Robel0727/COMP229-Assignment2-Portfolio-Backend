@@ -10,7 +10,15 @@ function Home() {
         Hello! Welcome to my personal portfolio website.
       </p>
 
-      <Link to="/about">Learn More About Me</Link>
+      <Link
+        to="/about"
+        style={{
+          color: '#0056b3',
+          textDecoration: 'underline'
+        }}
+      >
+        Learn More About Me
+      </Link>
     </div>
   );
 }

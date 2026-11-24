@@ -1,30 +1,36 @@
 import express from 'express';
+
+import authMiddleware from '../middlewares/auth.js';
+import adminMiddleware from '../middlewares/adminMiddleware.js';
+
 import {
-   createUser,
-   updateUser,
-   deleteUser,
-   getAllUsers, 
-   getUserById,
-   loginUser
+    createUser,
+    updateUser,
+    deleteUser,
+    getAllUsers,
+    getUserById,
+    loginUser
 } from '../controllers/user-controllers.js';
 
 const router = express.Router();
 
-// REST API simulate CRUD
+// PUBLIC: Register a new user
+router.post('/', createUser);
 
-// READs
-router.get("/", getAllUsers);
-router.get("/:id", getUserById);
-
-// CREATE
-router.post("/", createUser);
-
-// UPDATE
-router.put("/:id", updateUser);
-
-// DELETE
-router.delete("/:id", deleteUser);
-
+// PUBLIC: Sign in
 router.post('/login', loginUser);
+
+// Require authentication for user-management routes
+router.use(authMiddleware);
+
+// READ: Administrator only
+router.get('/', adminMiddleware, getAllUsers);
+router.get('/:id', adminMiddleware, getUserById);
+
+// UPDATE: Administrator only
+router.put('/:id', adminMiddleware, updateUser);
+
+// DELETE: Administrator only
+router.delete('/:id', adminMiddleware, deleteUser);
 
 export default router;

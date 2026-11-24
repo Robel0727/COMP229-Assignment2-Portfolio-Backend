@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -21,14 +23,34 @@ function Contact() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    alert(
-      `Thank you ${formData.firstName} ${formData.lastName}! Your message has been submitted.`
-    );
+    setLoading(true);
+    setError('');
 
-    setSubmitted(true);
+    try {
+      const response = await fetch('http://localhost:5000/api/contacts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to submit contact form.');
+      }
+
+      setSubmitted(true);
+
+    } catch (error) {
+      setError(error.message || 'Unable to connect to the server.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -42,14 +64,16 @@ function Contact() {
         <div>
           <h2>Thank You!</h2>
           <p>Your message has been submitted successfully.</p>
-
           <Link to="/">Return to Home</Link>
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
+          {error && <p role="alert">{error}</p>}
+
           <div>
-            <label>First Name:</label>
+            <label htmlFor="firstName">First Name:</label>
             <input
+              id="firstName"
               type="text"
               name="firstName"
               value={formData.firstName}
@@ -61,8 +85,9 @@ function Contact() {
           <br />
 
           <div>
-            <label>Last Name:</label>
+            <label htmlFor="lastName">Last Name:</label>
             <input
+              id="lastName"
               type="text"
               name="lastName"
               value={formData.lastName}
@@ -74,8 +99,9 @@ function Contact() {
           <br />
 
           <div>
-            <label>Contact Number:</label>
+            <label htmlFor="phone">Contact Number:</label>
             <input
+              id="phone"
               type="tel"
               name="phone"
               value={formData.phone}
@@ -87,8 +113,9 @@ function Contact() {
           <br />
 
           <div>
-            <label>Email:</label>
+            <label htmlFor="email">Email:</label>
             <input
+              id="email"
               type="email"
               name="email"
               value={formData.email}
@@ -100,9 +127,10 @@ function Contact() {
           <br />
 
           <div>
-            <label>Message:</label>
+            <label htmlFor="message">Message:</label>
             <br />
             <textarea
+              id="message"
               name="message"
               rows="5"
               cols="40"
@@ -114,7 +142,9 @@ function Contact() {
 
           <br />
 
-          <button type="submit">Submit</button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Submitting...' : 'Submit'}
+          </button>
         </form>
       )}
     </div>

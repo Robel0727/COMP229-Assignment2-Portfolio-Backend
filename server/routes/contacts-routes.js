@@ -1,5 +1,7 @@
-
 import express from 'express';
+
+import authMiddleware from '../middlewares/auth.js';
+import adminMiddleware from '../middlewares/adminMiddleware.js';
 
 import {
     createContact,
@@ -11,10 +13,20 @@ import {
 
 const router = express.Router();
 
-router.get('/', getAllContacts);
-router.get('/:id', getContactById);
+// Public route: Anyone can submit a contact message
 router.post('/', createContact);
-router.put('/:id', updateContact);
-router.delete('/:id', deleteContact);
+
+// Require authentication for all remaining routes
+router.use(authMiddleware);
+
+// READ: Administrator only
+router.get('/', adminMiddleware, getAllContacts);
+router.get('/:id', adminMiddleware, getContactById);
+
+// UPDATE: Administrator only
+router.put('/:id', adminMiddleware, updateContact);
+
+// DELETE: Administrator only
+router.delete('/:id', adminMiddleware, deleteContact);
 
 export default router;
