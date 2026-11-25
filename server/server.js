@@ -21,8 +21,8 @@ app.use(express.json());
 const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:5174',
-    process.env.FRONTEND_URL
-].filter(Boolean);
+    'https://robel-portfolio-frontend.onrender.com'
+];
 
 app.use(cors({
     origin: (origin, callback) => {
@@ -61,4 +61,4 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((error) => {
         console.error('MongoDB connection failed:', error.message);
         process.exit(1);
-    });
+    });cd
