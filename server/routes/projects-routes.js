@@ -1,5 +1,7 @@
 import express from 'express';
+import authMiddleware from '../middlewares/auth.js';
 import adminMiddleware from '../middlewares/adminMiddleware.js';
+
 import {
     createProject,
     deleteProject,
@@ -10,19 +12,17 @@ import {
 
 const router = express.Router();
 
-// REST API simulate CRUD
+// READ: Public access
+router.get('/', getAllProjects);
+router.get('/:id', getProjectById);
 
-// READs
-router.get("/", getAllProjects);
-router.get("/:id", getProjectById);
+// CREATE: Authentication and administrator authorization
+router.post('/', authMiddleware, adminMiddleware, createProject);
 
-// CREATE
-router.post("/", adminMiddleware, createProject);
+// UPDATE: Authentication and administrator authorization
+router.put('/:id', authMiddleware, adminMiddleware, updateProject);
 
-// UPDATE
-router.put("/:id", adminMiddleware, updateProject);
-
-// DELETE
-router.delete("/:id", adminMiddleware, deleteProject);
+// DELETE: Authentication and administrator authorization
+router.delete('/:id', authMiddleware, adminMiddleware, deleteProject);
 
 export default router;

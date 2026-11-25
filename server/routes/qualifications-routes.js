@@ -1,4 +1,5 @@
 import express from 'express';
+import authMiddleware from '../middlewares/auth.js';
 import adminMiddleware from '../middlewares/adminMiddleware.js';
 
 import {
@@ -15,13 +16,13 @@ const router = express.Router();
 router.get('/', getAllQualifications);
 router.get('/:id', getQualificationById);
 
-// CREATE: Administrator only
-router.post('/', adminMiddleware, createQualification);
+// CREATE: Authentication and administrator authorization
+router.post('/', authMiddleware, adminMiddleware, createQualification);
 
-// UPDATE: Administrator only
-router.put('/:id', adminMiddleware, updateQualification);
+// UPDATE: Authentication and administrator authorization
+router.put('/:id', authMiddleware, adminMiddleware, updateQualification);
 
-// DELETE: Administrator only
-router.delete('/:id', adminMiddleware, deleteQualification);
+// DELETE: Authentication and administrator authorization
+router.delete('/:id', authMiddleware, adminMiddleware, deleteQualification);
 
 export default router;
