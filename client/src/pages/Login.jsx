@@ -30,6 +30,7 @@ function Login() {
       localStorage.setItem('user', JSON.stringify(data.user));
 
       setMessage(`Login successful. Role: ${data.user.role}`);
+      window.location.href = '/projects';
 
     } catch (error) {
       setMessage(error.message);
