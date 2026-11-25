@@ -1,6 +1,4 @@
 import express from 'express';
-
-import authMiddleware from '../middlewares/auth.js';
 import adminMiddleware from '../middlewares/adminMiddleware.js';
 
 import {
@@ -13,10 +11,7 @@ import {
 
 const router = express.Router();
 
-// Require authentication for all qualification routes
-router.use(authMiddleware);
-
-// READ: Available to authenticated users
+// READ: Public access
 router.get('/', getAllQualifications);
 router.get('/:id', getQualificationById);
 
