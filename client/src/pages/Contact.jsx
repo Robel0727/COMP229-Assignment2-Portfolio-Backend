@@ -30,7 +30,7 @@ function Contact() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/contacts', {
+      const response = await fetch('https://comp229-assignment2-portfolio-backend-jde2.onrender.com/api/contacts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

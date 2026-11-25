@@ -3,6 +3,7 @@ dotenv.config();
 
 import mongoose from 'mongoose';
 import express from 'express';
+import cors from 'cors';
 
 import authMiddleware from './middlewares/auth.js';
 
@@ -10,16 +11,27 @@ import projectsRoutes from './routes/projects-routes.js';
 import userRoutes from './routes/user-routes.js';
 import contactsRoutes from './routes/contacts-routes.js';
 import qualificationsRoutes from './routes/qualifications-routes.js';
-import cors from 'cors';
 
 const app = express();
 
 // Middleware
-// Middleware
 app.use(express.json());
 
+// CORS configuration
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174']
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
 }));
 
 // Welcome route
@@ -43,7 +55,7 @@ mongoose.connect(process.env.MONGO_URI)
         console.log('MongoDB database connection established successfully');
 
         app.listen(PORT, () => {
-            console.log(`Server is running on http://localhost:${PORT}`);
+            console.log(`Server is running on port ${PORT}`);
         });
     })
     .catch((error) => {

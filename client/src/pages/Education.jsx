@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 
 function Education() {
@@ -8,11 +9,14 @@ function Education() {
   useEffect(() => {
     const fetchQualifications = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/qualifications', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+        const response = await fetch(
+          'https://comp229-assignment2-portfolio-backend-jde2.onrender.com/api/qualifications',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
           }
-        });
+        );
 
         const data = await response.json();
 

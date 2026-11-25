@@ -69,7 +69,7 @@ describe('Contact Component', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledWith(
-      'http://localhost:5000/api/contacts',
+      'https://comp229-assignment2-portfolio-backend-jde2.onrender.com/api/contacts',
       expect.objectContaining({
         method: 'POST'
       })

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 
 function Projects() {
@@ -20,13 +21,17 @@ function Projects() {
 
   const token = localStorage.getItem('token');
 
+  // Load projects from the deployed backend
   const fetchProjects = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/projects', {
-        headers: {
-          Authorization: `Bearer ${token}`
+      const response = await fetch(
+        'https://comp229-assignment2-portfolio-backend-jde2.onrender.com/api/projects',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
-      });
+      );
 
       const data = await response.json();
 
@@ -54,6 +59,7 @@ function Projects() {
     });
   };
 
+  // Create or update a project
   const handleSubmit = async (event) => {
     event.preventDefault();
     setMessage('');
@@ -62,8 +68,8 @@ function Projects() {
     try {
       const response = await fetch(
         editingId
-          ? `http://localhost:5000/api/projects/${editingId}`
-          : 'http://localhost:5000/api/projects',
+          ? `https://comp229-assignment2-portfolio-backend-jde2.onrender.com/api/projects/${editingId}`
+          : 'https://comp229-assignment2-portfolio-backend-jde2.onrender.com/api/projects',
         {
           method: editingId ? 'PUT' : 'POST',
           headers: {
@@ -80,7 +86,11 @@ function Projects() {
         throw new Error(data.message || 'Project could not be saved.');
       }
 
-      setMessage(editingId ? 'Project updated successfully.' : 'Project created successfully.');
+      setMessage(
+        editingId
+          ? 'Project updated successfully.'
+          : 'Project created successfully.'
+      );
 
       setForm({
         name: '',
@@ -97,20 +107,26 @@ function Projects() {
     }
   };
 
+  // Edit an existing project
   const handleEdit = (project) => {
     setEditingId(project._id);
 
     setForm({
       name: project.name,
       description: project.description,
-      startDate: project.startDate ? project.startDate.substring(0, 10) : '',
-      endDate: project.endDate ? project.endDate.substring(0, 10) : ''
+      startDate: project.startDate
+        ? project.startDate.substring(0, 10)
+        : '',
+      endDate: project.endDate
+        ? project.endDate.substring(0, 10)
+        : ''
     });
 
     setMessage('');
     setError('');
   };
 
+  // Delete a project
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this project?')) {
       return;
@@ -118,7 +134,7 @@ function Projects() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/projects/${id}`,
+        `https://comp229-assignment2-portfolio-backend-jde2.onrender.com/api/projects/${id}`,
         {
           method: 'DELETE',
           headers: {
@@ -141,8 +157,10 @@ function Projects() {
     }
   };
 
+  // Cancel editing
   const cancelEdit = () => {
     setEditingId(null);
+
     setForm({
       name: '',
       description: '',
@@ -245,7 +263,9 @@ function Projects() {
             {isAdmin && (
               <div>
                 <button onClick={() => handleEdit(project)}>Edit</button>
-                <button onClick={() => handleDelete(project._id)}>Delete</button>
+                <button onClick={() => handleDelete(project._id)}>
+                  Delete
+                </button>
               </div>
             )}
 
@@ -258,3 +278,4 @@ function Projects() {
 }
 
 export default Projects;
+

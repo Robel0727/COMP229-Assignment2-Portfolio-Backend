@@ -14,7 +14,7 @@ function Signup() {
     setMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch('https://comp229-assignment2-portfolio-backend-jde2.onrender.com/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

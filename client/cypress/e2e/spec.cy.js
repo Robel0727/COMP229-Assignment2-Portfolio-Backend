@@ -21,7 +21,7 @@ describe('My Portfolio Website', () => {
   // Test 3: Contact form submission
   it('submits the contact form successfully', () => {
 
-    cy.intercept('POST', 'http://localhost:5000/api/contacts', {
+    cy.intercept('POST', '**/api/contacts', {
       statusCode: 201,
       body: {
         message: 'Contact submitted successfully'
