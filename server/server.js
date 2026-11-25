@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 });
 
 // API routes
-app.use('/api/projects', authMiddleware, projectsRoutes);
+app.use('/api/projects', projectsRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/contacts', contactsRoutes);
 app.use('/api/qualifications', qualificationsRoutes);
